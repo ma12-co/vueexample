@@ -24,9 +24,9 @@
 	"license": "agpl",
 	"private": true,
 	"scripts": {
-		"dev": "webpack --config webpack.dev.js",
-		"watch": "webpack --progress --watch --config webpack.dev.js",
-		"build": "webpack --progress --hide-modules --config webpack.prod.js",
+		"build": "NODE_ENV=production webpack --progress --hide-modules --config webpack.js",
+		"dev": "NODE_ENV=development webpack --progress --config webpack.dev.js",
+		"watch": "NODE_ENV=development webpack --progress --watch --config webpack.js",
 		"lint": "eslint --ext .js,.vue src",
 		"lint:fix": "eslint --ext .js,.vue src --fix",
 		"stylelint": "stylelint src",
@@ -46,7 +46,6 @@
 		"@babel/core": "^7.5.5",
 		"@babel/plugin-syntax-dynamic-import": "^7.2.0",
 		"@babel/preset-env": "^7.5.5",
-		"@vue/test-utils": "^1.0.0-beta.29",
 		"babel-eslint": "^10.0.3",
 		"babel-loader": "^8.0.6",
 		"browserslist-config-nextcloud": "0.0.1",
@@ -72,6 +71,6 @@
 		"webpack": "^4.39.3",
 		"webpack-cli": "^3.3.7",
 		"webpack-merge": "^4.2.2",
-		"webpack-node-externals": "^1.7.2"
+		"webpack-vue-config": "git+https://github.com/skjnldsv/webpack-vue-config.git"
 	}
 }
