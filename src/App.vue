@@ -8,7 +8,105 @@
 				button-class="icon-add"
 				@click="newButtonAction" />
 			<ul id="app-vueexample-navigation">
-				<AppNavigationItem v-for="item in menu" :key="item.key" :item="item" />
+				<AppNavigationItem icon="icon-user" title="This is a user">
+					<AppNavigationCounter slot="counter" :highlighted="true">
+						99+
+					</AppNavigationCounter>
+					<template slot="actions">
+						<ActionButton icon="icon-edit" @click="alert('Edit')">
+							Edit
+						</ActionButton>
+						<ActionButton icon="icon-delete" @click="alert('Delete')">
+							Delete
+						</ActionButton>
+						<ActionLink icon="icon-external" title="Link" href="https://nextcloud.com" />
+					</template>
+				</AppNavigationItem>
+				<AppNavigationItem title="This is bullet item">
+					<AppNavigationIconBullet slot="icon" color="0082c9" />
+					<template slot="actions">
+						<ActionRadio name="uniqueId" @change="alert('(un)checked !')">
+							First choice
+						</ActionRadio>
+						<ActionRadio value="second" name="uniqueId" @change="alert('(un)checked !')">
+							Second choice
+						</ActionRadio>
+						<ActionRadio :checked="true" name="uniqueId" @change="alert('(un)checked !')">
+							Third choice (checked)
+						</ActionRadio>
+						<ActionRadio :disabled="true" name="uniqueId" @change="alert('(un)checked !')">
+							Second choice (disabled)
+						</ActionRadio>
+						<ActionButton :disabled="false" icon="icon-edit" @click="alert('Edit')">
+							Edit
+						</ActionButton>
+						<ActionInput icon="icon-edit" type="date">
+							Please pick a date
+						</ActionInput>
+						<ActionLink :disabled="false"
+							icon="icon-external"
+							title="Link"
+							href="https://nextcloud.com" />
+						<ActionCheckbox :disabled="false">
+							Checkbox
+						</ActionCheckbox>
+						<ActionInput :disabled="false" icon="icon-add">
+							ActionInput
+						</ActionInput>
+						<ActionRouter :disabled="false" icon="icon-add" to="#">
+							ActionRouter
+						</ActionRouter>
+						<ActionText :disabled="false" icon="icon-add">
+							ActionText
+						</ActionText>
+						<ActionTextEditable :disabled="false">
+							ActionTextEditable
+						</ActionTextEditable>
+					</template>
+				</AppNavigationItem>
+				<AppNavigationItem title="Counter and actions"
+					icon="icon-category-enabled">
+					<AppNavigationCounter slot="counter" :highlighted="true">
+						99+
+					</AppNavigationCounter>
+					<template slot="actions">
+						<ActionButton icon="icon-edit" @click="alert('Edit')">
+							Edit
+						</ActionButton>
+						<ActionButton icon="icon-delete" @click="alert('Delete')">
+							Delete
+						</ActionButton>
+						<ActionLink icon="icon-external" title="Link" href="https://nextcloud.com" />
+					</template>
+				</AppNavigationItem>
+				<AppNavigationItem title="Item with children"
+					:allow-collapse="true"
+					icon="icon-folder">
+					<template>
+						<AppNavigationItem title="AppNavigationItemChild1">
+							<AppNavigationIconBullet slot="icon" color="0082c9" />
+						</AppNavigationItem>
+						<AppNavigationItem title="AppNavigationItemChild2" icon="icon-category-enabled" />
+						<AppNavigationItem title="AppNavigationItemChild3" icon="icon-category-enabled" />
+						<AppNavigationItem title="AppNavigationItemChild4" icon="icon-category-enabled" />
+					</template>
+				</AppNavigationItem>
+				<AppNavigationItem title="Loading Item" :loading="true" />
+				<AppNavigationItem title="Event Item" icon="icon-folder" @click="console.log('clicked')" />
+				<AppNavigationItem title="Editable Item"
+					icon="icon-folder"
+					:editable="true"
+					edit-placeholder="I am a placeholder" />
+				<AppNavigationItem title="Are you sure you want to delete?" :undo="true" />
+				<AppNavigationItem title="First pinned item"
+					icon="icon-category-enabled"
+					:pinned="true" />
+				<AppNavigationItem title="Second pinned item"
+					icon="icon-category-enabled"
+					:pinned="true" />
+				<AppNavigationItem title="Third pinned item"
+					icon="icon-category-enabled"
+					:pinned="true" />
 			</ul>
 			<AppNavigationSettings>
 				Example settings
@@ -19,6 +117,19 @@
 			<button @click="show = !show">
 				Toggle sidebar
 			</button>
+			<DatetimePicker
+				:value="new Date()"
+				type="datetime"
+				@update:value="alert('Value updated')"
+				@change="alert('Date changed')" />
+			<div class="container">
+				<ColorPicker v-model="color">
+					<button>
+						Click Me
+					</button>
+				</ColorPicker>
+				<div :style="{'background-color': color}" class="color" />
+			</div>
 		</AppContent>
 		<AppSidebar v-show="show"
 			title="christmas-image-2018-12-25-00:01:12.jpg"
@@ -56,14 +167,28 @@
 </template>
 
 <script>
-import Content from 'nextcloud-vue/dist/Components/Content'
-import AppContent from 'nextcloud-vue/dist/Components/AppContent'
-import AppNavigation from 'nextcloud-vue/dist/Components/AppNavigation'
-import AppNavigationItem from 'nextcloud-vue/dist/Components/AppNavigationItem'
-import AppNavigationNew from 'nextcloud-vue/dist/Components/AppNavigationNew'
-import AppNavigationSettings from 'nextcloud-vue/dist/Components/AppNavigationSettings'
-import AppSidebar from 'nextcloud-vue/dist/Components/AppSidebar'
-import AppSidebarTab from 'nextcloud-vue/dist/Components/AppSidebarTab'
+import {
+	Content,
+	AppContent,
+	AppNavigation,
+	AppNavigationItem,
+	AppNavigationNew,
+	AppNavigationSettings,
+	AppSidebar,
+	AppSidebarTab,
+	AppNavigationCounter,
+	ActionButton,
+	ActionLink,
+	AppNavigationIconBullet,
+	ActionCheckbox,
+	ActionInput,
+	ActionRouter,
+	ActionText,
+	ActionTextEditable,
+	DatetimePicker,
+	ActionRadio,
+	ColorPicker
+} from 'nextcloud-vue'
 
 export default {
 	name: 'App',
@@ -75,7 +200,19 @@ export default {
 		AppNavigationNew,
 		AppNavigationSettings,
 		AppSidebar,
-		AppSidebarTab
+		AppSidebarTab,
+		AppNavigationCounter,
+		ActionButton,
+		ActionLink,
+		AppNavigationIconBullet,
+		ActionCheckbox,
+		ActionInput,
+		ActionRouter,
+		ActionText,
+		ActionTextEditable,
+		DatetimePicker,
+		ActionRadio,
+		ColorPicker
 	},
 	data: function() {
 		return {
@@ -83,7 +220,8 @@ export default {
 			date: Date.now() + 86400000 * 3,
 			date2: Date.now() + 86400000 * 3 + Math.floor(Math.random() * 86400000 / 2),
 			show: true,
-			starred: false
+			starred: false,
+			color: '#0082c9'
 		}
 	},
 	computed: {
@@ -121,28 +259,7 @@ export default {
 				{
 					id: 'app-category-enabled',
 					classes: [],
-					icon: 'icon-category-enabled',
-					href: '#3',
-					utils: {
-						counter: 123,
-						actions: [
-							{
-								icon: 'icon-delete',
-								text: t('settings', 'Remove group'),
-								action: function() {
-									alert('remove')
-								}
-							},
-							{
-								icon: 'icon-delete',
-								text: t('settings', 'Remove group'),
-								action: function() {
-									alert('remove')
-								}
-							}
-						]
-					},
-					text: t('settings', 'Active apps')
+					href: '#3'
 				},
 				{
 					id: 'app-category-disabled',
@@ -178,3 +295,15 @@ export default {
 	}
 }
 </script>
+
+<style lang="scss" scoped>
+.container {
+	display: flex;
+}
+
+.color {
+	width: 100px;
+	margin-left: 20px;
+	border-radius: 6px;
+}
+</style>
